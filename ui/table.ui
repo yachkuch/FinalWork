@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Table</class>
+ <widget class="QWidget" name="Table">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>940</width>
+    <height>677</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Перечень автомобилей</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="sortingEnabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>true</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Уник. номер</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Марка</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Пробег</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Кол. топлива</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Состояние</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Имя арендатора</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Время начала аренды</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

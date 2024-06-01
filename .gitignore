@@ -1,0 +1,11 @@
+/.vscode
+/build
+.cache/clangd/index/asio_client.cpp.255D9BAB5FAC7E7E.idx
+.cache/clangd/index/asio_server.cpp.4B8B0AC8F3C22839.idx
+.cache/clangd/index/DataBaseWorker.cpp.CD14DD1933D00DC2.idx
+.cache/clangd/index/DataBaseWorker.h.ACBDFF6D18C5E099.idx
+.cache/clangd/index/Networker.cpp.D6D07B96CAB27171.idx
+.cache/clangd/index/Networker.h.E3E0CF51CA6D1150.idx
+.cache/clangd/index/sqlite3.c.41F289453BEC80BC.idx
+.cache/clangd/index/sqlite3.h.042F88C291F7138D.idx
+db
