@@ -22,9 +22,8 @@ private:
     sqlite3* db = nullptr;
     
     sqlite3_stmt* create_table_stmt = nullptr;
-    sqlite3_stmt* create_table_stmt2 = nullptr;
-
-    std::string add_mes( sqlite3_stmt  *stmt, std::string db_name, const std::vector<std::string>&mes );
+    const std::string db_name;
+    std::string add_mes( const std::vector<std::string>&mes );
 
     int sqlite_check(int code, const char* msg = "", int expected = SQLITE_OK);
     void sqlite_throw(int code, const char* msg = "");

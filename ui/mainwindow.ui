@@ -40,10 +40,17 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="text">
-         <string>Редактировать</string>
-        </property>
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>Основная таблица</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Редактор состояний</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>
@@ -62,8 +69,17 @@
       </item>
       <item>
        <widget class="QDateTimeEdit" name="dateTimeEdit">
-        <property name="calendarPopup">
+        <property name="wrapping">
          <bool>false</bool>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+        <property name="currentSectionIndex">
+         <number>0</number>
+        </property>
+        <property name="timeSpec">
+         <enum>Qt::LocalTime</enum>
         </property>
        </widget>
       </item>
@@ -98,5 +114,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>comboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_2</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>320</x>
+     <y>716</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>357</x>
+     <y>555</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

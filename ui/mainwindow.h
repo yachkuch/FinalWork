@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "DataBaseWorker.h"
+#include <memory>
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    const std::shared_ptr<DataBaseWorker> dbWorker;
 };
 
 #endif // MAINWINDOW_H

@@ -46,6 +46,7 @@ target_include_directories(asio_server PRIVATE sqlite/)
 target_include_directories(asio_server PRIVATE database/)
 target_include_directories(asio_server PRIVATE networker/)
 target_include_directories(asio_server PRIVATE ui/)
+target_include_directories(asio_server PRIVATE protocol/)
 
 if(MINGW)
   target_link_libraries(asio_client ws2_32)

@@ -46,7 +46,7 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QLineEdit" name="lineEdit"/>
+              <widget class="QLineEdit" name="uniqNumber"/>
              </item>
             </layout>
            </item>
@@ -62,7 +62,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_2"/>
+            <widget class="QLineEdit" name="Type"/>
            </item>
           </layout>
          </item>
@@ -76,7 +76,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_2">
+            <widget class="QComboBox" name="state">
              <item>
               <property name="text">
                <string>Идеальное</string>
@@ -116,7 +116,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_4"/>
+            <widget class="QSpinBox" name="fuel"/>
            </item>
           </layout>
          </item>
@@ -130,7 +130,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_3"/>
+            <widget class="QLineEdit" name="distance"/>
            </item>
           </layout>
          </item>
