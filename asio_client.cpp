@@ -21,10 +21,5 @@ asio::io_context context;
     auto send_n = socket.send(asio::buffer(line), {}, ec);
     assert(!ec);
     assert(send_n == line.size());
-
-    std::string received_line(line.size(), '\0');
-    auto recv_n = socket.receive(asio::buffer(received_line), {}, ec);
-    assert(!ec);
-    if(received_line != "OK\n") std::cerr << received_line << std::endl;
   }
 }

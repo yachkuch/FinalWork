@@ -33,6 +33,9 @@
         </widget>
        </item>
        <item>
+        <widget class="QComboBox" name="comboBox_2"/>
+       </item>
+       <item>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">

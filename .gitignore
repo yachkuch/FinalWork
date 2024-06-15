@@ -9,3 +9,4 @@
 .cache/clangd/index/sqlite3.c.41F289453BEC80BC.idx
 .cache/clangd/index/sqlite3.h.042F88C291F7138D.idx
 db
+CMakeLists.txt.user

@@ -12,7 +12,8 @@
 #include <memory>
 #include <utility>
 
-void Session::run() {
+void Session::run() 
+{
   std::array<char, 150> buff;
   socket->async_receive(
       boost::asio::buffer(buff),
@@ -42,12 +43,14 @@ void Session::run() {
 
 Networker::Networker(boost::asio::io_context &con, unsigned int port,
                      std::string ip_adress)
-    : context(con) {
+    : context(con) 
+{
   this->port_ = port;
   this->ip_ = ip_adress;
 }
 
-void Networker::start_server() {
+void Networker::start_server() 
+{
   namespace asio = boost::asio;
 
   asio::ip::tcp::endpoint endpoint(asio::ip::make_address_v4(ip_), port_);
@@ -59,13 +62,14 @@ void Networker::start_server() {
   std::cout << "Server start \n";
 }
 
-void Networker::sendData(std::string data) {
-   auto a = sig(data);
-   pSocket.get()->send(boost::asio::buffer(a.get()));
-    }
+void Networker::sendData(std::string data) 
+{
+   emit dataRecieves(data);
+}
 
 void Networker::handleAccept(
-    std::shared_ptr<boost::asio::ip::tcp::socket> socket) {
+    std::shared_ptr<boost::asio::ip::tcp::socket> socket) 
+{
   std::cout << "New connection" << std::endl;
   auto ses = std::make_shared<Session>(context, std::move(socket), *this);
   ses->run();

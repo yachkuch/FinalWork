@@ -5,8 +5,9 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <QObject>
 
-class Networker;
+class Networker ;
 /**
  * @brief Класс вычитывателя соединения
  *
@@ -26,7 +27,8 @@ struct Session : std::enable_shared_from_this<Session> {
 ///////////////////////////////////////////////////////////
 /// @brief Networker класс сервера
 ///
-class Networker final {
+class Networker : public QObject{
+  Q_OBJECT
 public:
   explicit Networker(boost::asio::io_context &con, unsigned int port,
                      std::string ip_adress = "");
@@ -38,6 +40,9 @@ public:
 
   void operator()(std::string string);
   boost::signals2::signal<std::string(std::string string)> sig;
+
+signals:
+void dataRecieves(std::string data);
 
 private:
 

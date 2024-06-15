@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include <boost/mpl/range_c.hpp>
 #include <boost/fusion/include/for_each.hpp>
@@ -16,6 +17,36 @@
 
 namespace fusion=boost::fusion;
 namespace mpl=boost::mpl;
+
+template <typename Sequence>
+struct Struct_member_printer
+{
+    Struct_member_printer(const Sequence& seq,std::vector<std::pair<std::string,std::string>> &names):seq_(seq),names(names){}
+    const Sequence& seq_;
+    std::vector<std::pair<std::string,std::string>> &names;
+    template <typename Index>
+    void operator() (Index) const
+    {
+
+        std::string member_type = boost::typeindex::type_id<typename fusion::result_of::value_at<Sequence,Index>::type >().pretty_name() ;
+        std::string member_name = fusion::extension::struct_member_name<Sequence,Index::value>::call();
+        names.push_back({member_name,member_type});
+       // std::cout << member_type /*<< " " << member_name*/   << "; ";
+    }
+};
+/**
+ * @brief print_struct первое начение поля паре это имя поля второе значение типа поля
+*/
+template<typename Sequence>
+std::vector<std::pair<std::string,std::string>>  print_struct(Sequence const& v)
+{
+    std::vector<std::pair<std::string,std::string>> names;
+    typedef mpl::range_c<unsigned, 0, fusion::result_of::size<Sequence>::value > Indices; 
+    //std::cout << "{ ";
+    fusion::for_each(Indices(), Struct_member_printer<Sequence>(v,names));
+    //std::cout << "}\n";
+    return names;
+}
 
 enum e_MessageType
 {
@@ -40,12 +71,12 @@ struct CarStateMes
 {
     int32_t dataType;
     int32_t id;
-    std::string brand;
+    std::string brand{"-"};
     int32_t distance;
     int32_t fuel;
-    std::string state;
-    std::string name;
-    std::string time;
+    std::string state{"-"};
+    std::string name{"-"};
+    std::string time{"-"};
 
     std::string toString() const
     {
@@ -53,32 +84,66 @@ struct CarStateMes
         std::to_string(id) + " " + brand + " " + std::to_string(distance) + " " + 
         std::to_string(fuel) + " " + state + " " + name + " " + time;
     }
+
+    std::vector<std::string> toVector() const
+    {
+        using namespace std;
+        vector<string> res;
+        res.push_back(std::to_string(dataType));
+        res.push_back(std::to_string(id));
+        res.push_back(brand);
+        res.push_back(std::to_string(distance));
+        res.push_back(std::to_string(fuel));
+        res.push_back(state);
+        res.push_back(name);
+        res.push_back(time);
+        return res;
+    }
+    /**
+     * первы параметр это имя поля в структуре второй параметр это значение поля
+    */
+    void writeByName(std::vector<std::pair<std::string,std::string>> data)
+    {
+        auto names = print_struct(*this); 
+        for(const auto &elementData : data)
+        {
+            if(elementData.first == "dataType")
+            {
+                dataType = std::stoi(elementData.second);
+            }
+            else if(elementData.first == "id")
+            {
+                id = std::stoi(elementData.second);
+            }
+            else if(elementData.first == "brand")
+            {
+                brand = elementData.second;
+            }
+            else if(elementData.first == "distance")
+            {
+                distance = std::stoi(elementData.second);
+            }
+            else if(elementData.first == "fuel")
+            {
+                fuel = std::stoi(elementData.second);
+            }
+            else if(elementData.first == "state")
+            {
+                state = elementData.second;
+            }
+            else if(elementData.first == "name")
+            {
+                name = elementData.second;
+            }
+            else if(elementData.first == "time")
+            {
+                time = elementData.second;
+            }
+        }
+    }
 };
 BOOST_FUSION_ADAPT_STRUCT(CarStateMes, dataType, id, name,distance,fuel,state,name,time);
 
-template <typename Sequence>
-struct Struct_member_printer
-{
-    Struct_member_printer(const Sequence& seq):seq_(seq){}
-    const Sequence& seq_;
-    template <typename Index>
-    void operator() (Index) const
-    {
 
-        std::string member_type = boost::typeindex::type_id<typename fusion::result_of::value_at<Sequence,Index>::type >().pretty_name() ;
-        std::string member_name = fusion::extension::struct_member_name<Sequence,Index::value>::call();
-
-        std::cout << member_type << " " << member_name << "; ";
-    }
-};
-
-template<typename Sequence>
-void print_struct(Sequence const& v)
-{
-    typedef mpl::range_c<unsigned, 0, fusion::result_of::size<Sequence>::value > Indices; 
-    std::cout << "{ ";
-    fusion::for_each(Indices(), Struct_member_printer<Sequence>(v));
-    std::cout << "}\n";
-}
 
 #endif
