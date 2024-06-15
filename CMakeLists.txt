@@ -39,9 +39,17 @@ file(GLOB helloworld_SRC
      "protocol/*.h"
 )
 
+file(GLOB Client_SRC
+     "networker/*.c*"
+     "networker/*.h"
+     "client/*.h"
+     "client/*.cpp"
+     "protocol/*.h"
+)
+
 include_directories(${LIB_INCLUDES})
 if(CLIENT)
-add_executable(asio_client asio_client.cpp)
+add_executable(asio_client asio_client.cpp ${Client_SRC})
 endif()
 
 if(SEVER)
@@ -50,6 +58,10 @@ endif()
 
 if(CLIENT)
 target_include_directories(asio_client PRIVATE sqlite/)
+target_include_directories(asio_client PRIVATE sqlite/)
+target_include_directories(asio_client PRIVATE networker/)
+target_include_directories(asio_client PRIVATE client/)
+target_include_directories(asio_client PRIVATE protocol/)
 endif()
 
 if(SEVER)
@@ -67,6 +79,7 @@ if(MINGW)
 endif()
 if(CLIENT)
 target_link_libraries(asio_client ${Boost_LIBRARIES})
+target_link_libraries(asio_client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 endif()
 
 if(SEVER)

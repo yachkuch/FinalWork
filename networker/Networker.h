@@ -27,7 +27,8 @@ struct Session : std::enable_shared_from_this<Session> {
 ///////////////////////////////////////////////////////////
 /// @brief Networker класс сервера
 ///
-class Networker : public QObject{
+class Networker : public QObject
+{
   Q_OBJECT
 public:
   explicit Networker(boost::asio::io_context &con, unsigned int port,
@@ -35,7 +36,9 @@ public:
   virtual ~Networker();
 
   void start_server();
+  void start_client();
 
+  void sendMessage(std::string message);
   void sendData(std::string data);
 
   void operator()(std::string string);

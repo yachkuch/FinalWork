@@ -50,8 +50,9 @@ std::vector<std::pair<std::string,std::string>>  print_struct(Sequence const& v)
 
 enum e_MessageType
 {
-    e_MessageType_commnication, //<  Новый пользователь
+    e_MessageType_commnication, //<  Основное сообщение от пользователя 
     e_MessageType_message,      //<  Сообщение о взаимодействии с автомобилем
+    e_GetFullData,
 };
 
 enum e_DataType
@@ -98,6 +99,50 @@ struct CarStateMes
         res.push_back(name);
         res.push_back(time);
         return res;
+    }
+
+    void fromString(std::vector<std::string> data)
+    {
+        try
+        {
+        dataType = std::stoi(data[0]);
+        }
+        catch(...){return;}
+        try
+        {
+        id = std::stoi(data[1]);
+        }
+        catch(...){return;}
+        try
+        {
+        brand = data[2];
+        }
+        catch(...){return;}
+        try
+        {
+        distance = std::stoi(data[3]);
+        }
+        catch(...){return;}
+        try
+        {
+        fuel = std::stoi(data[4]);
+        }
+        catch(...){return;}
+        try
+        {
+        state = data[5];
+        }
+        catch(...){return;}
+        try
+        {
+        name = data[6];
+        }
+        catch(...){return;}
+        try
+        {
+        time = data[7];
+        }
+        catch(...){return;}
     }
     /**
      * первы параметр это имя поля в структуре второй параметр это значение поля
