@@ -71,6 +71,24 @@ std::string DataBaseWorker::add_mes(const std::vector<std::string>&mes)
   return "OK";
 }
 
+std::string DataBaseWorker::add_mes(const std::string sql)
+{
+  sqlite_check(sqlite3_open("db", &db));
+  char* errmsg{};
+  int res = sqlite3_exec(db, sql.data(),
+                     nullptr, nullptr, &errmsg);
+  if(res != SQLITE_OK)
+  {
+    return std::string(errmsg);
+  }
+  return "OK";
+}
+
+std::string DataBaseWorker::getTableName()
+{
+    return db_name;
+}
+
 std::list<std::vector<std::string>> DataBaseWorker::getData(std::vector<std::string>&mes)
 {
   char* errmsg{};

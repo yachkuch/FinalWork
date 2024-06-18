@@ -8,6 +8,9 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include <QPushButton>
+#include <QAction>
+#include <QTime>
+#include <QSpinBox>
 
 ClientWindow::ClientWindow(boost::asio::io_context &context, QWidget *parent) : QMainWindow(parent), context(context),
                                                                                 networker(std::make_shared<Networker>(context, 1337, std::string("127.0.0.1"))),
@@ -30,11 +33,17 @@ ClientWindow::ClientWindow(boost::asio::io_context &context, QWidget *parent) : 
     ui->tableView->verticalHeader()->setVisible(false);
 
     connect(ui->update,&QPushButton::pressed,this,&ClientWindow::senRequest);
+    connect(ui->pushButton,&QPushButton::pressed,this,&ClientWindow::sendGettingCarMessage);
 }
 
 ClientWindow::~ClientWindow()
 {
     delete ui;
+}
+
+void ClientWindow::addButtom(std::string namer)
+{
+    //ui->cars_but->addAction(new QAction(namer.data(), ui->cars_but));
 }
 
 void ClientWindow::setTableData(std::string data)
@@ -52,12 +61,11 @@ void ClientWindow::setTableData(std::string data)
     {
         return;
     }
-
     auto row_number = model->rowCount();
-    ;
     auto iter = row_to_index.find(index);
     if (iter == row_to_index.end())
     {
+        addButtom(vectorData.at(1));
         row_to_index[index] = row_number;
         for (int i = -1; const auto &el : vectorData)
         {
@@ -78,14 +86,31 @@ void ClientWindow::setTableData(std::string data)
     }
 }
 
+void ClientWindow::sendGettingCarMessage()
+{
+    auto text = ui->spinBox->value();
+    auto iter = row_to_index.find(text);
+    if (iter == row_to_index.end()) return;
+    CarStateMes cars;
+    cars.id = text;
+    auto row_number = iter->second;
+    model->item(row_number,0);
+    cars.dataType = e_MessageType::e_MessageType_commnication;
+    cars.name = ui->name->text().toStdString();
+    cars.time = QTime::currentTime().toString().toStdString();
+    auto dat= cars.toString();
+    std::cout<<dat<<std::endl;
+    networker->sendMessage(std::move(dat));
+}
+
 void ClientWindow::run()
 {
     auto ping = [](boost::asio::io_context &context)
     {
         while (true)
         {
-            context.poll();
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            context.poll_one();
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
         }
     };
     std::thread a(ping, std::ref(context));

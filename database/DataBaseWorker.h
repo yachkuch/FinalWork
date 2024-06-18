@@ -18,6 +18,8 @@ public:
     std::string operator()(std::string str);
 
     std::string add_mes( const std::vector<std::string>&mes );
+    std::string add_mes( const std::string mes );
+    std::string getTableName();
 
     std::list<std::vector<std::string>> getData(std::vector<std::string>&mes);
 private:

@@ -28,7 +28,7 @@ void Session::run()
         }
         if (bytes == 0)
         {
-          std::cout << "Received 0\n";
+          //std::cout << "Received 0\n";
           return;
         }
         std::string recieve_string;
@@ -78,8 +78,13 @@ void Networker::start_client()
     {
       pSocket->connect(
           boost::asio::ip::tcp::endpoint{boost::asio::ip::make_address_v4(ip_), port_});
-      auto ses = std::make_shared<Session>(context, socket, *this);
+     ses = std::make_shared<Session>(context,pSocket,*this);
+     std::thread th([](std::shared_ptr<Session> ses)
+     {
+      while (true)
       ses->run();
+      },ses);
+     th.detach();
       break;
     }
     catch (...)
@@ -89,6 +94,7 @@ void Networker::start_client()
       continue;
     }
   }
+ 
 }
 
 void Networker::sendMessage(std::string message)

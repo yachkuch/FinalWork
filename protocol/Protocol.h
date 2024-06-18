@@ -81,9 +81,19 @@ struct CarStateMes
 
     std::string toString() const
     {
-        return std::to_string(dataType) + " " + 
-        std::to_string(id) + " " + brand + " " + std::to_string(distance) + " " + 
-        std::to_string(fuel) + " " + state + " " + name + " " + time;
+        auto a = std::to_string(dataType);
+        auto b = std::to_string(id);
+        auto c = std::to_string(distance);
+        auto d = std::to_string(fuel);
+        auto clean = [](std::string val)
+        {
+            return val.erase(val.size()-1);
+        };
+        auto res =  a + " " + b
+         + " " + brand + " " + c + " " + d
+         + " " + state + " " + name + " " + time;
+         return res;
+        
     }
 
     std::vector<std::string> toVector() const

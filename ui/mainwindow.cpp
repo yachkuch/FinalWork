@@ -23,7 +23,6 @@ MainWindow::MainWindow(boost::asio::io_context &context,QWidget *parent) :
     net->start_server();
     connect(net.get(),&Networker::dataRecieves,this,&MainWindow::setTableData);
     run();
-
 }
 
 MainWindow::~MainWindow()
@@ -60,17 +59,32 @@ void MainWindow::setTableData(std::string data)
     {
         std::vector<std::string> sql = {"*"};
         auto cars = dbWorker->getData(sql);
+        std::thread thread([cars](std::shared_ptr<Networker> net)
+        {
         for( auto &car : cars)
         {
         CarStateMes mes_to_send;
         mes_to_send.fromString(car);
-        net->sendMessage(mes_to_send.toString());
+        auto string = mes_to_send.toString();
+        net->sendMessage(std::move(string));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
+        },net);
+       thread.detach();
+
     } break;
     case e_MessageType::e_MessageType_commnication:
     {
+    std::cout<<"Message \n";
     cars.fromString(vectorData);
+    std::string sql = " INSERT INTO " + dbWorker->getTableName() + " ( id, name ) VALUES (";
+    sql+= vectorData.at(1);
+    sql+= ", '";
+    sql+= cars.name;
+    sql+= "');";
     auto result = dbWorker->add_mes(vectorData);
+    std::cout<<result;
+    break;
      if(result != "OK")
     {
         QMessageBox::warning(this,"Ошибка",result.c_str());
@@ -91,7 +105,7 @@ auto ping = [](boost::asio::io_context &context)
 {
     while(true)
     {
-    context.poll();
+    context.poll_one();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 };

@@ -20,6 +20,9 @@ public:
     ~ClientWindow();
 
 private:
+
+    void addButtom(std::string namer);
+
     Ui::ClientWindow *ui;
 
     boost::asio::io_context &context;
@@ -31,6 +34,7 @@ private:
 
 private slots:
     void setTableData(std::string data);
+    void sendGettingCarMessage();
 
 
     void run();

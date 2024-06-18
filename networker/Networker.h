@@ -56,6 +56,7 @@ private:
   boost::asio::ip::tcp::acceptor *acceptor = nullptr;
   std::shared_ptr<boost::asio::ip::tcp::socket> pSocket;
   boost::asio::io_context &context;
+  std::shared_ptr<Session> ses;
 };
 
 
