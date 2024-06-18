@@ -7,58 +7,38 @@
 #include <vector>
 #include <QObject>
 
-class Networker ;
-/**
- * @brief Класс вычитывателя соединения
- *
- */
-struct Session : std::enable_shared_from_this<Session> {
-  Session(boost::asio::io_context &context,std::shared_ptr<boost::asio::ip::tcp::socket> socket,
-        Networker &net)
-      : context(context), socket(std::move(socket)),net(net)
-         {}
-  void run();
-  boost::asio::io_context &context;
-  std::shared_ptr<boost::asio::ip::tcp::socket> socket;
-  std::string received_line;
-  Networker &net;
-  std::vector<char> unused_bytes;
-};
-///////////////////////////////////////////////////////////
-/// @brief Networker класс сервера
-///
+#include <QUdpSocket>
+
+
 class Networker : public QObject
 {
-  Q_OBJECT
-public:
-  explicit Networker(boost::asio::io_context &con, unsigned int port,
-                     std::string ip_adress = "");
-  virtual ~Networker();
 
-  void start_server();
-  void start_client();
+  Q_OBJECT
+
+  public:
+
+  Networker( unsigned int portRecieve,unsigned int portSend, std::string ip_adress = "");
+  ~Networker() = default;
 
   void sendMessage(std::string message);
   void sendData(std::string data);
+  
+  private:
 
-  void operator()(std::string string);
-  boost::signals2::signal<std::string(std::string string)> sig;
+  std::unique_ptr<QUdpSocket> recieveSoket;
+  std::unique_ptr<QUdpSocket> sendSocket;
 
-signals:
-void dataRecieves(std::string data);
+  QByteArray data;
 
-private:
+  unsigned int portRecieve;
+  unsigned int portSend;
 
-  void handleAccept(std::shared_ptr<boost::asio::ip::tcp::socket> socket);
-  unsigned int port_ = 0;
-  std::vector<char> unusedBytes;
-  std::string ip_ = "127.0.0.1";
-  boost::asio::ip::tcp::acceptor *acceptor = nullptr;
-  std::shared_ptr<boost::asio::ip::tcp::socket> pSocket;
-  boost::asio::io_context &context;
-  std::shared_ptr<Session> ses;
+  private slots:
+    void read();
+
+  signals:  void dataRecieves(std::string data);
+
 };
-
 
 
 #endif // __NETWORKER_H_6RM5NKCO09GG__

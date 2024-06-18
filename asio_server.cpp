@@ -4,9 +4,8 @@
 #include <QApplication>
 int main(int argc, char *argv[])
 {
-    boost::asio::io_context context;
     QApplication apl(argc, argv);
-    MainWindow window(context);
+    MainWindow window;
     window.show();
     apl.exec();
     return 1;

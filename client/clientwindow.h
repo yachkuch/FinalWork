@@ -2,7 +2,6 @@
 #define CLIENTWINDOW_H
 
 #include <QMainWindow>
-#include <boost/asio/io_context.hpp>
 #include <memory>
 #include <QStandardItemModel>
 #include <unordered_map>
@@ -16,7 +15,7 @@ class ClientWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ClientWindow(boost::asio::io_context &context,QWidget *parent = nullptr);
+    explicit ClientWindow(QWidget *parent = nullptr);
     ~ClientWindow();
 
 private:
@@ -25,7 +24,6 @@ private:
 
     Ui::ClientWindow *ui;
 
-    boost::asio::io_context &context;
     std::shared_ptr<Networker> networker;
 
     QStandardItemModel* model{nullptr};

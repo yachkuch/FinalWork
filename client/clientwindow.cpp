@@ -12,14 +12,11 @@
 #include <QTime>
 #include <QSpinBox>
 
-ClientWindow::ClientWindow(boost::asio::io_context &context, QWidget *parent) : QMainWindow(parent), context(context),
-                                                                                networker(std::make_shared<Networker>(context, 1337, std::string("127.0.0.1"))),
+ClientWindow::ClientWindow(QWidget *parent) : QMainWindow(parent),networker(std::make_shared<Networker>(1200,1337, std::string("127.0.0.1"))),
                                                                                 ui(new Ui::ClientWindow)
 {
     ui->setupUi(this);
     connect(networker.get(), &Networker::dataRecieves, this, &ClientWindow::setTableData);
-    networker->start_client();
-    run();
     model = new QStandardItemModel(0, 7);
     model->setHeaderData(0, Qt::Horizontal, "Номер");
     model->setHeaderData(1, Qt::Horizontal, "Марка");
@@ -105,16 +102,6 @@ void ClientWindow::sendGettingCarMessage()
 
 void ClientWindow::run()
 {
-    auto ping = [](boost::asio::io_context &context)
-    {
-        while (true)
-        {
-            context.poll_one();
-            std::this_thread::sleep_for(std::chrono::milliseconds(150));
-        }
-    };
-    std::thread a(ping, std::ref(context));
-    a.detach();
 }
 
 void ClientWindow::senRequest()

@@ -26,6 +26,7 @@ link_libraries(Boost::boost)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package( Qt${QT_VERSION_MAJOR} COMPONENTS Network REQUIRED )
 
 set(SOURCES sqlite/sqlite3.c)
 
@@ -80,12 +81,14 @@ endif()
 if(CLIENT)
 target_link_libraries(asio_client ${Boost_LIBRARIES})
 target_link_libraries(asio_client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(asio_client PRIVATE Qt${QT_VERSION_MAJOR}::Network)
 endif()
 
 if(SEVER)
 
 target_link_libraries(asio_server ${Boost_LIBRARIES})
 target_link_libraries(asio_server PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(asio_server PRIVATE Qt${QT_VERSION_MAJOR}::Network)
 endif()
 
 

@@ -9,9 +9,9 @@
 #include "Protocol.h"
 #include <boost/algorithm/string/classification.hpp>
 
-MainWindow::MainWindow(boost::asio::io_context &context,QWidget *parent) :
-    QMainWindow(parent),context(context),dbWorker(std::make_shared<DataBaseWorker>()),
-    net(std::make_shared<Networker>(context, 1337, std::string("127.0.0.1"))),
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),dbWorker(std::make_shared<DataBaseWorker>()),
+    net(std::make_shared<Networker>( 1337, 1200,std::string("127.0.0.1"))),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -20,7 +20,6 @@ MainWindow::MainWindow(boost::asio::io_context &context,QWidget *parent) :
     std::vector<std::string> sql = {"*"};
     auto cars = dbWorker->getData(sql);
     ui->page_3->setRows(cars);
-    net->start_server();
     connect(net.get(),&Networker::dataRecieves,this,&MainWindow::setTableData);
     run();
 }
@@ -101,14 +100,4 @@ void MainWindow::setTableData(std::string data)
 
 void MainWindow::run()
 {
-auto ping = [](boost::asio::io_context &context)
-{
-    while(true)
-    {
-    context.poll_one();
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-};
-    std::thread a(ping, std::ref(context));
-    a.detach();
 }
