@@ -48,7 +48,7 @@ void Table::setRow(std::vector<std::string> row)
         }
         return;
     }
-    for(int i = -1; const auto &el : row)
+    for(int i = 0; const auto &el : row)
     {
         if(i > model->columnCount()) return;
         auto item = model->item(iter->second,i);

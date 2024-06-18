@@ -95,6 +95,7 @@ void ClientWindow::sendGettingCarMessage()
     cars.dataType = e_MessageType::e_MessageType_commnication;
     cars.name = ui->name->text().toStdString();
     cars.time = QTime::currentTime().toString().toStdString();
+    cars.state = "Арендована";
     auto dat= cars.toString();
     std::cout<<dat<<std::endl;
     networker->sendMessage(std::move(dat));

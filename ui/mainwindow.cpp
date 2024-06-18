@@ -76,14 +76,18 @@ void MainWindow::setTableData(std::string data)
     {
     std::cout<<"Message \n";
     cars.fromString(vectorData);
-    std::string sql = " INSERT INTO " + dbWorker->getTableName() + " ( id, name ) VALUES (";
-    sql+= vectorData.at(1);
-    sql+= ", '";
+    std::string sql = " UPDATE " + dbWorker->getTableName() + " SET name=";
+    sql+= "'";
     sql+= cars.name;
-    sql+= "');";
-    auto result = dbWorker->add_mes(vectorData);
+    sql+= "', time= '";
+    sql+= cars.time;
+    sql+= "', state= '";
+    sql+= cars.state;
+    sql+= "'";
+    sql+= " WHERE id=";
+    sql+= vectorData.at(1);
+    auto result = dbWorker->add_mes(sql);
     std::cout<<result;
-    break;
      if(result != "OK")
     {
         QMessageBox::warning(this,"Ошибка",result.c_str());
