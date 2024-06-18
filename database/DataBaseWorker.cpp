@@ -151,7 +151,7 @@ void DataBaseWorker::sqlite_check_with_mes(int code, const char* msg, int expect
 
 void DataBaseWorker::start_db()
 {
-  sqlite_check(sqlite3_open("db", &db));
+  sqlite_check(sqlite3_open("../carsBase/db", &db));
   {
     std::string sql{"CREATE TABLE IF NOT EXISTS "};
     sql.append(db_name);
