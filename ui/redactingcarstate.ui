@@ -87,12 +87,7 @@
              </item>
              <item>
               <property name="text">
-               <string>С пробегом</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>На обслуживании</string>
+               <string>Обслуживанется</string>
               </property>
              </item>
              <item>

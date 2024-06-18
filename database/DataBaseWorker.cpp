@@ -43,7 +43,7 @@ std::string DataBaseWorker::operator()(std::string data)
 std::string DataBaseWorker::add_mes(const std::vector<std::string>&mes)
 {
   if(create_table_stmt == nullptr) return "Table is not created";
-  sqlite_check(sqlite3_open("db", &db));
+  sqlite_check(sqlite3_open("../carsBase/db", &db));
   char* errmsg{};
   std::string sql;
   sql.append(" INSERT INTO ");
@@ -73,7 +73,7 @@ std::string DataBaseWorker::add_mes(const std::vector<std::string>&mes)
 
 std::string DataBaseWorker::add_mes(const std::string sql)
 {
-  sqlite_check(sqlite3_open("db", &db));
+  sqlite_check(sqlite3_open("../carsBase/db", &db));
   char* errmsg{};
   int res = sqlite3_exec(db, sql.data(),
                      nullptr, nullptr, &errmsg);

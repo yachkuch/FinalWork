@@ -30,7 +30,6 @@ void Networker::sendData(std::string data)
 void Networker::read()
 {
   std::string recieve_string;
-  std::cout<<"Данные пришли \n";
    while (recieveSoket->hasPendingDatagrams()) 
    {
     QNetworkDatagram datagram = recieveSoket->receiveDatagram();
