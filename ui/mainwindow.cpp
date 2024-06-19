@@ -67,7 +67,7 @@ void MainWindow::setTableData(std::string data)
         mes_to_send.fromString(car);
         auto string = mes_to_send.toString();
         net->sendMessage(std::move(string));
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        std::this_thread::sleep_for(std::chrono::milliseconds(2));
         }
         },net);
        thread.detach();
@@ -88,13 +88,14 @@ void MainWindow::setTableData(std::string data)
     sql+= " WHERE id=";
     sql+= vectorData.at(1);
     auto result = dbWorker->add_mes(sql);
-    std::cout<<result;
      if(result != "OK")
     {
         QMessageBox::warning(this,"Ошибка",result.c_str());
         return;
     }
     ui->page_3->setRow(vectorData);
+    auto stringData = cars.toString();
+    net->sendMessage(std::move(stringData));
     } break;
     default:
     {

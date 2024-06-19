@@ -74,12 +74,13 @@ void ClientWindow::setTableData(std::string data)
         }
         return;
     }
-    for (int i = -1; const auto &el : vectorData)
+    vectorData.erase(vectorData.begin());
+    for(int i = 0; const auto &el : vectorData)
     {
-        if (i > model->columnCount())
-            return;
-        auto item = model->item(iter->second, i);
-        item->setData(QVariant(el.data()));
+        if(i >= model->columnCount()) return;
+        auto item = model->item(iter->second,i);
+        if(item == nullptr) return;
+        item->setText(QString(el.data()));
         i++;
     }
 }
@@ -99,11 +100,15 @@ void ClientWindow::sendGettingCarMessage()
         QMessageBox mb;
         mb.setText("Этот автомобиль уже арендован");
         mb.exec();
+        return;
     }
     cars.dataType = e_MessageType::e_MessageType_commnication;
     cars.name = ui->name->text().toStdString();
     cars.time = QTime::currentTime().toString().toStdString();
     cars.state = "Арендована";
+    cars.brand =  model->item(row_number,1)->text().toStdString();
+    cars.distance =  model->item(row_number,2)->text().toInt();
+    cars.fuel =  model->item(row_number,3)->text().toInt();
     auto dat= cars.toString();
     networker->sendMessage(std::move(dat));
 }

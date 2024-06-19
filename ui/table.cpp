@@ -48,11 +48,13 @@ void Table::setRow(std::vector<std::string> row)
         }
         return;
     }
+    row.erase(row.begin());
     for(int i = 0; const auto &el : row)
     {
-        if(i > model->columnCount()) return;
+        if(i >= model->columnCount()) return;
         auto item = model->item(iter->second,i);
-        item->setData(QVariant(el.data()));
+        if(item == nullptr) return;
+        item->setText(QString(el.data()));
         i++;
     }
 }
