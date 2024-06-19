@@ -8,6 +8,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include "Protocol.h"
 #include <boost/algorithm/string/classification.hpp>
+#include <QVector>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),dbWorker(std::make_shared<DataBaseWorker>()),

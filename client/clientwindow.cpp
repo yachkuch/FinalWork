@@ -11,6 +11,7 @@
 #include <QAction>
 #include <QTime>
 #include <QSpinBox>
+#include <QMessageBox>
 
 ClientWindow::ClientWindow(QWidget *parent) : QMainWindow(parent),networker(std::make_shared<Networker>(1200,1337, std::string("127.0.0.1"))),
                                                                                 ui(new Ui::ClientWindow)
@@ -91,13 +92,19 @@ void ClientWindow::sendGettingCarMessage()
     CarStateMes cars;
     cars.id = text;
     auto row_number = iter->second;
-    model->item(row_number,0);
+    auto item = model->item(row_number,4);
+    auto datIt = item->text().toStdString();
+    if(datIt == "Арендована")
+    {
+        QMessageBox mb;
+        mb.setText("Этот автомобиль уже арендован");
+        mb.exec();
+    }
     cars.dataType = e_MessageType::e_MessageType_commnication;
     cars.name = ui->name->text().toStdString();
     cars.time = QTime::currentTime().toString().toStdString();
     cars.state = "Арендована";
     auto dat= cars.toString();
-    std::cout<<dat<<std::endl;
     networker->sendMessage(std::move(dat));
 }
 
